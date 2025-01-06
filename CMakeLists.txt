@@ -124,9 +124,3 @@ install(TARGETS ${MAIN_EXECUTABLE_NAME} DESTINATION ${DESTINATION_DIR})
 if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
-
-###############################################################################
-# Copiere fișiere suplimentare (ex: tastatura.txt) vezi unde e eroarea cu dog
-
-include(cmake/CopyHelper.cmake)
-copy_files(FILES tastatura.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
