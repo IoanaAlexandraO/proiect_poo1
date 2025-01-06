@@ -1,22 +1,21 @@
-#ifndef PET_SHOP_H
-#define PET_SHOP_H
-#include "Pet.h"
-#include "Customer.h"
-#include <vector>
-#include <list>
-#include <algorithm>
-class PetShop {
+#ifndef PET_H
+#define PET_H
+
+#include "AbstractEntity.h"
+#include <string>
+#include <iostream>
+
+class Pet : public AbstractEntity {
 private:
-    std::vector<Pet> pets;
-    std::list<Customer> customers;
-    static int totalSales;
-    PetShop() {}
+    std::string name;
+    int age;
 public:
-    static PetShop& getInstance();
-    void addPet(const Pet& pet);
-    void addCustomer(const Customer& customer);
-    void sellPet(const Pet& pet);
-    static int getTotalSales();
-    void sortPetsByAge();
+    Pet(const std::string& name, int age);
+    Pet(const Pet& other);
+    Pet& operator=(const Pet& other);
+    ~Pet();
+    void speak() const override;
+    int getAge() const;
 };
+
 #endif
