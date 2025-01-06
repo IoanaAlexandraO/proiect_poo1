@@ -103,8 +103,11 @@ FetchContent_MakeAvailable(googletest)
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
     src/Pet.cpp
-    src/Dog.cpp
-    src/Cat.cpp)
+    src/Customer.cpp
+    src/Cashier.cpp
+    src/Manager.cpp
+    src/PetShop.cpp
+    src/CustomException.cpp)
 
 # Include directoare suplimentare pentru fișiere externe
 include(cmake/CompilerFlags.cmake)
@@ -123,6 +126,7 @@ if(APPLE)
 endif()
 
 ###############################################################################
-# Copiere fișiere suplimentare (ex: tastatura.txt)
+# Copiere fișiere suplimentare (ex: tastatura.txt) vezi unde e eroarea cu dog
+
 include(cmake/CopyHelper.cmake)
 copy_files(FILES tastatura.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
