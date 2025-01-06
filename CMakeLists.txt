@@ -21,7 +21,7 @@ add_executable(${MAIN_EXECUTABLE_NAME}
     src/Customer.cpp
     src/Cashier.cpp
     src/Manager.cpp
-    src/PetShop.cpp
+    src/Petshop.cpp
     src/CustomException.cpp)
 
 # Include directoare suplimentare pentru fișiere externe
