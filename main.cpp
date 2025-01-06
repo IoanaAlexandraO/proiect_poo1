@@ -44,36 +44,26 @@ int main() {
                 break;
             }
             case 3: {
-    std::string name;
-    std::cout << "Enter pet name to sell: ";
-    std::getline(std::cin, name);
-    try {
-        Pet pet(name, 0);
-        petShop.sellPet(pet);
-        cashier.work();  // Asigură-te că această linie există
-    } catch (const CustomException& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
-    break;
-}
+                std::string name;
+                std::cout << "Enter pet name to sell: ";
+                std::cin >> name;
+                Pet pet(name, 0);
+                try {
+                    petShop.sellPet(pet);
+                } catch (const CustomException& e) {
+                    std::cout << e.what() << std::endl;
+                }
+                break;
+            }
             case 4:
                 std::cout << "Total sales: " << PetShop::getTotalSales() << std::endl;
                 break;
             case 5:
                 petShop.sortPetsByAge();
                 break;
-            case 6: {
-    std::string name;
-    std::cout << "Enter pet name to make it speak: ";
-    std::getline(std::cin, name);
-    try {
-        Pet pet(name, 0);
-        pet.speak();  // Asigură-te că această linie există
-    } catch (const CustomException& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
-    break;
-}
+            case 6:
+                std::cout << "Exiting..." << std::endl;
+                break;
             default:
                 std::cout << "Invalid choice. Try again." << std::endl;
         }
