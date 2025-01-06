@@ -9,13 +9,24 @@ class Pet : public AbstractEntity {
 private:
     std::string name;
     int age;
+
 public:
+    // Constructori
     Pet(const std::string& name, int age);
     Pet(const Pet& other);
+
+    // Operator de atribuire
     Pet& operator=(const Pet& other);
-    ~Pet() override;
-    void speak() const override;
+
+    // Destructor
+    ~Pet();
+
+    // Metode
+    void speak() const;
+
+    // Getters
+    const std::string& getName() const;
     int getAge() const;
 };
 
-#endif
+#endif // PET_H
