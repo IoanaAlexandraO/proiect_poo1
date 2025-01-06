@@ -16,7 +16,8 @@ void PetShop::addPet(const Pet& pet) {
     pets.push_back(pet);
 }
 
-void PetShop::addCustomer(const Customer& customer) { // NOLINT
+// cppcheck-suppress unusedFunction
+void PetShop::addCustomer(const Customer& customer) {
     customers.push_back(customer);
 }
 
@@ -34,11 +35,13 @@ void PetShop::sellPet(const Pet& pet) {
     }
 }
 
-int PetShop::getTotalSales() { // NOLINT
+// cppcheck-suppress unusedFunction
+int PetShop::getTotalSales() {
     return totalSales;
 }
 
-void PetShop::sortPetsByAge() { // NOLINT
+// cppcheck-suppress unusedFunction
+void PetShop::sortPetsByAge() {
     std::sort(pets.begin(), pets.end(),
         [](const Pet& a, const Pet& b) {
             return a.getAge() < b.getAge();
