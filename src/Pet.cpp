@@ -36,4 +36,3 @@ const std::string& Pet::getName() const {
 int Pet::getAge() const {
     return age;
 }
-
