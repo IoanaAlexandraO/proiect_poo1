@@ -1,34 +1,57 @@
-cmake_minimum_required(VERSION 3.26)
-set(MAIN_PROJECT_NAME "pets_project")
-set(MAIN_EXECUTABLE_NAME "${MAIN_PROJECT_NAME}")
-project(${MAIN_PROJECT_NAME})
+cmake_minimum_required(VERSION 3.10)
+project(pets_project)
 
-# Setăm standardul C++ la 23
-set(CMAKE_CXX_STANDARD 23)
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Specifică explicit calea către directorul include
-target_include_directories(${MAIN_PROJECT_NAME} PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+# Enable testing
+enable_testing()
 
-# Adaugă toate sursele
-add_executable(${MAIN_EXECUTABLE_NAME}
-    main.cpp
+# Set sources
+set(SOURCES
+    src/main.cpp
     src/Pet.cpp
     src/Customer.cpp
     src/Cashier.cpp
     src/Manager.cpp
     src/PetShop.cpp
-    src/CustomException.cpp)
+    src/CustomException.cpp
+)
 
-# Include directoare suplimentare pentru fișiere externe
-include(cmake/CompilerFlags.cmake)
+# Set headers
+set(HEADERS
+    include/AbstractEntity.h
+    include/Pet.h
+    include/Customer.h
+    include/Employee.h
+    include/Cashier.h
+    include/Manager.h
+    include/PetShop.h
+    include/CustomException.h
+)
 
-# Instalarea executabilului
-install(TARGETS ${MAIN_EXECUTABLE_NAME} DESTINATION ${DESTINATION_DIR})
+# Add executable
+add_executable(pets_project ${SOURCES} ${HEADERS})
 
-if(APPLE)
-    install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
+# Add include directories
+target_include_directories(pets_project PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+# Add compiler warnings
+if(MSVC)
+    target_compile_options(pets_project PRIVATE /W4)
+else()
+    target_compile_options(pets_project PRIVATE -Wall -Wextra -Wpedantic)
 endif()
+
+# Add test executable if needed
+#add_executable(test_pets_project tests/test_main.cpp ${SOURCES})
+#target_include_directories(test_pets_project PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+#add_test(NAME test_pets_project COMMAND test_pets_project)
+
+# Installation rules
+install(TARGETS pets_project
+    RUNTIME DESTINATION bin
+)
