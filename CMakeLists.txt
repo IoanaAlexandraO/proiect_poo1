@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 
 # Setăm numele proiectului
-set(MAIN_PROJECT_NAME "pets_project")
+set(MAIN_PROJECT_NAME "oop")
 set(MAIN_EXECUTABLE_NAME "${MAIN_PROJECT_NAME}")
 
 project(${MAIN_PROJECT_NAME})
