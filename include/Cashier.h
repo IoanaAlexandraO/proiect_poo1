@@ -6,6 +6,7 @@
 
 class Cashier : public Employee {
 public:
+// cppcheck-suppress unusedFunction
     void work() const override;
 };
 
