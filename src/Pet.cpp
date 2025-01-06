@@ -14,6 +14,7 @@ Pet& Pet::operator=(const Pet& other) {
 
 Pet::~Pet() {}
 
+// cppcheck-suppress unusedFunction
 void Pet::speak() const {
     std::cout << "Pet " << name << " says: Meow!" << std::endl;
 }
