@@ -1,3 +1,4 @@
+#include <fstream>
 #include "PetShop.h"
 #include "Pet.h"
 #include "Customer.h"
@@ -9,6 +10,12 @@
 int main() {
     PetShop& petShop = PetShop::getInstance();
     int choice;
+    std::ifstream inputFile("tastatura.txt");
+    
+    if (!inputFile) {
+        std::cout << "Failed to open input file." << std::endl;
+        return 1;
+    }
     
     do {
         std::cout << "1. Add Pet\n";
@@ -18,16 +25,16 @@ int main() {
         std::cout << "5. Sort Pets by Age\n";
         std::cout << "6. Exit\n";
         std::cout << "Enter your choice: ";
-        std::cin >> choice;
+        inputFile >> choice;
         
         switch (choice) {
             case 1: {
                 std::string name;
                 int age;
                 std::cout << "Enter pet name: ";
-                std::cin >> name;
+                inputFile >> name;
                 std::cout << "Enter pet age: ";
-                std::cin >> age;
+                inputFile >> age;
                 Pet pet(name, age);
                 petShop.addPet(pet);
                 break;
@@ -36,9 +43,9 @@ int main() {
                 std::string name;
                 int age;
                 std::cout << "Enter customer name: ";
-                std::cin >> name;
+                inputFile >> name;
                 std::cout << "Enter customer age: ";
-                std::cin >> age;
+                inputFile >> age;
                 Customer customer(name, age);
                 petShop.addCustomer(customer);
                 break;
@@ -46,7 +53,7 @@ int main() {
             case 3: {
                 std::string name;
                 std::cout << "Enter pet name to sell: ";
-                std::cin >> name;
+                inputFile >> name;
                 Pet pet(name, 0);
                 try {
                     petShop.sellPet(pet);
@@ -68,6 +75,8 @@ int main() {
                 std::cout << "Invalid choice. Try again." << std::endl;
         }
     } while (choice != 6);
+    
+    inputFile.close();
     
     return 0;
 }
