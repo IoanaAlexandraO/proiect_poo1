@@ -1,4 +1,4 @@
-modifica #ifndef PET_SHOP_H
+#ifndef PET_SHOP_H
 #define PET_SHOP_H
 #include "Pet.h"
 #include "Customer.h"
