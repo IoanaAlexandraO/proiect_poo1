@@ -13,7 +13,7 @@ public:
     Pet(const std::string& name, int age);
     Pet(const Pet& other);
     Pet& operator=(const Pet& other);
-    ~Pet();
+    ~Pet() override;
     void speak() const override;
     int getAge() const;
 };
