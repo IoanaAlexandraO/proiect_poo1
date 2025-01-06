@@ -15,7 +15,7 @@ Pet& Pet::operator=(const Pet& other) {
     return *this;
 }
 
-Pet::~Pet() override {}
+Pet::~Pet()  {}
 
 void Pet::speak() const {
     std::cout << "Pet " << name << " says: Meow!" << std::endl;
