@@ -1,6 +1,5 @@
 #ifndef PET_H
 #define PET_H
-
 #include "AbstractEntity.h"
 #include <string>
 #include <iostream>
@@ -14,8 +13,8 @@ public:
     Pet(const Pet& other);
     Pet& operator=(const Pet& other);
     ~Pet() override;
+    // cppcheck-suppress unusedFunction
     void speak() const override;
     int getAge() const;
 };
-
 #endif
