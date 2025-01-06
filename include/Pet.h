@@ -1,32 +1,22 @@
-#ifndef PET_H
-#define PET_H
-
-#include "AbstractEntity.h"
-#include <string>
-#include <iostream>
-
-class Pet : public AbstractEntity {
+modifica #ifndef PET_SHOP_H
+#define PET_SHOP_H
+#include "Pet.h"
+#include "Customer.h"
+#include <vector>
+#include <list>
+#include <algorithm>
+class PetShop {
 private:
-    std::string name;
-    int age;
-
+    std::vector<Pet> pets;
+    std::list<Customer> customers;
+    static int totalSales;
+    PetShop() {}
 public:
-    // Constructori
-    Pet(const std::string& name, int age);
-    Pet(const Pet& other);
-
-    // Operator de atribuire
-    Pet& operator=(const Pet& other);
-
-    // Destructor
-    ~Pet();
-
-    // Metode
-    void speak() const;
-
-    // Getters
-    const std::string& getName() const;
-    int getAge() const;
+    static PetShop& getInstance();
+    void addPet(const Pet& pet);
+    void addCustomer(const Customer& customer);
+    void sellPet(const Pet& pet);
+    static int getTotalSales();
+    void sortPetsByAge();
 };
-
-#endif // PET_H
+#endif
