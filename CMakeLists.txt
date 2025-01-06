@@ -1,42 +1,39 @@
 cmake_minimum_required(VERSION 3.26)
 
-# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing executable name in this file
-# for now, the project name is used as the executable name
-set(MAIN_PROJECT_NAME "oop")
+# Setăm numele proiectului
+set(MAIN_PROJECT_NAME "pets_project")
 set(MAIN_EXECUTABLE_NAME "${MAIN_PROJECT_NAME}")
 
 project(${MAIN_PROJECT_NAME})
-# set(CMAKE_PROJECT_VERSION_MAJOR 0)
-# set(CMAKE_PROJECT_VERSION_MINOR 0)
-# set(CMAKE_PROJECT_VERSION_PATCH 1)
 
+# Setăm standardul C++ la 23
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# You aren't supposed to be using this, but convenience...
+# Căutăm toate fișierele sursă .cpp și fișierele header .h
 file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "src/*.cpp")
 file(GLOB_RECURSE HEADERS RELATIVE ${CMAKE_SOURCE_DIR} "include/*.h")
 include_directories(include)
 include_directories(src)
 
+# Opțiuni pentru sanitizatori și opțiuni de compilare (de exemplu, ASAN)
 option(WARNINGS_AS_ERRORS "Treat warnings as errors" OFF)
 option(USE_ASAN "Use Address Sanitizer" OFF)
 option(USE_MSAN "Use Memory Sanitizer" OFF)
 
+# Setează prefixul de instalare la "install_dir" dacă este implicit
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "install_dir" CACHE PATH "..." FORCE)
 endif()
 
-# disable sanitizers when releasing executables without explicitly requested debug info
-# use generator expressions to set flags correctly in both single and multi config generators
+# Opțiuni pentru generarea de cod și sanitație
 set(is_debug "$<CONFIG:Debug>")
 set(is_rel_with_deb "$<CONFIG:RelWithDebInfo>")
 set(debug_mode "$<OR:${is_debug},${is_rel_with_deb}>")
 
 ###############################################################################
-# custom functions
-
+# Funcții personalizate pentru setarea sanitizatorilor
 function(detect_libcpp)
     set(OLD_CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
@@ -51,7 +48,6 @@ endfunction()
 
 function(set_custom_stdlib_and_sanitizers target add_apple_asan)
     if(MSVC)
-        # see https://gitlab.kitware.com/cmake/cmake/-/issues/24922
         set_target_properties(${target} PROPERTIES VS_USER_PROPS "${CMAKE_SOURCE_DIR}/disable_modules.props")
         target_compile_options(${target} PRIVATE /experimental:module-)
         if(USE_ASAN)
@@ -92,7 +88,7 @@ endfunction()
 include(cmake/Options.cmake)
 
 ###############################################################################
-# external dependencies with FetchContent
+# Declaram GoogleTest pentru testare (dacă e necesar)
 include(FetchContent)
 
 FetchContent_Declare(
@@ -103,32 +99,28 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(googletest)
 
 ###############################################################################
-
-# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
+# Creăm executabilul cu sursele din "src"
 add_executable(${MAIN_EXECUTABLE_NAME}
-        main.cpp
-        src/Cashier.cpp
-        src/CustomException.cpp
-        src/Customer.cpp
-        src/Manager.cpp
-        src/Pet.cpp
-        src/PetShop.cpp)
+    main.cpp
+    src/Pet.cpp
+    src/Customer.cpp
+    src/Cashier.cpp
+    src/Manager.cpp
+    src/PetShop.cpp
+    src/CustomException.cpp)
 
+# Include directoare suplimentare pentru fișiere externe
 include(cmake/CompilerFlags.cmake)
 
 ###############################################################################
-# use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
+# Dacă este nevoie, include directoare pentru fișiere suplimentare
 target_include_directories(${MAIN_EXECUTABLE_NAME} SYSTEM PRIVATE generated/include)
 
 ###############################################################################
-# copy binaries to "bin" folder; these are uploaded as artifacts on each release
-# DESTINATION_DIR is set as "bin" in cmake/Options.cmake:6
+# Instalarea executabilului
 install(TARGETS ${MAIN_EXECUTABLE_NAME} DESTINATION ${DESTINATION_DIR})
+
+# Dacă e pe macOS, instalează și fișiere suplimentare
 if(APPLE)
     install(FILES launcher.command DESTINATION ${DESTINATION_DIR})
 endif()
-
-###############################################################################
-
-include(cmake/CopyHelper.cmake)
-copy_files(FILES tastatura.txt COPY_TO_DESTINATION TARGET_NAME ${MAIN_EXECUTABLE_NAME})
