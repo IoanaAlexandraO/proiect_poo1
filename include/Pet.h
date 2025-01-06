@@ -16,5 +16,6 @@ public:
     // cppcheck-suppress unusedFunction
     void speak() const override;
     int getAge() const;
+     std::string getName() const { return name; }
 };
 #endif
