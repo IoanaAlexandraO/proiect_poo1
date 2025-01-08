@@ -4,13 +4,12 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
-#include <iomanip>
 
 template<typename T>
 class Statistics {
 private:
     std::vector<T> data;
-    std::string category;  // pentru a ști ce tip de date conține
+    std::string category;
 
 public:
     Statistics(const std::string& cat) : category(cat) {}
@@ -27,7 +26,6 @@ public:
 
         std::cout << "\n=== Statistici pentru " << category << " ===\n";
         std::cout << "Număr total: " << data.size() << "\n";
-        std::cout << std::fixed << std::setprecision(2);
         std::cout << "Media: " << getAverage() << "\n";
         std::cout << "Minim: " << getMin() << "\n";
         std::cout << "Maxim: " << getMax() << "\n";
@@ -51,14 +49,6 @@ public:
     T getMin() const {
         if (data.empty()) return T();
         return *std::min_element(data.begin(), data.end());
-    }
-
-    size_t getCount() const {
-        return data.size();
-    }
-
-    void clear() {
-        data.clear();
     }
 };
 
