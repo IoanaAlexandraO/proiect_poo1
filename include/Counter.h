@@ -17,10 +17,6 @@ public:
         ++count;
         std::cout << message << count << std::endl;
     }
-    
-    T getCount() const {
-        return count;
-    }
 };
 
 #endif
