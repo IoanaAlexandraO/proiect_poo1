@@ -10,7 +10,8 @@
 
 int main() {
     PetShop& petShop = PetShop::getInstance();
-    Counter<int> animalCounter("Numărul de animale adăugate: ");
+    Counter<int> petCounter("Număr animale: ");
+    Counter<int> clientCounter("Număr clienți: ");
     
     std::ifstream inputFile("tastatura.txt");
     if (!inputFile) {
@@ -37,7 +38,7 @@ int main() {
                 inputFile >> name >> age;
                 Pet pet(name, age);
                 petShop.addPet(pet);
-                animalCounter.increment();
+                petCounter.increment();
                 std::cout << "Pet added successfully.\n";
                 break;
             }
@@ -47,6 +48,7 @@ int main() {
                 inputFile >> name >> age;
                 Customer customer(name, age);
                 petShop.addCustomer(customer);
+                clientCounter.increment();
                 std::cout << "Customer added successfully.\n";
                 break;
             }
@@ -76,7 +78,6 @@ int main() {
                 std::cout << "Pets sorted by age.\n";
                 break;
             case 6:
-                std::cout << "Total number of pets added: " << animalCounter.getCount() << std::endl;
                 std::cout << "Exiting...\n";
                 break;
             default:
