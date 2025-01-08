@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,11 +6,13 @@
 #include "PetShop.h"
 #include "Pet.h"
 #include "Customer.h"
+#include "Counter.h"
 
 int main() {
     PetShop& petShop = PetShop::getInstance();
-
-    std::ifstream inputFile("tastatura.txt");  // Deschide fișierul tastatura.txt
+    Counter<int> animalCounter("Numărul de animale adăugate: ");
+    
+    std::ifstream inputFile("tastatura.txt");
     if (!inputFile) {
         std::cout << "Error opening file tastatura.txt!" << std::endl;
         return 1;
@@ -19,8 +20,7 @@ int main() {
 
     int choice;
     do {
-        inputFile >> choice;  // Citește opțiunea din fișier
-
+        inputFile >> choice;
         std::cout << "\n--- Pet Shop Menu ---\n";
         std::cout << "1. Add Pet\n";
         std::cout << "2. Add Customer\n";
@@ -28,22 +28,23 @@ int main() {
         std::cout << "4. Get Total Sales\n";
         std::cout << "5. Sort Pets by Age\n";
         std::cout << "6. Exit\n";
-        std::cout << "Entered choice: " << choice << "\n";  // Afișează alegerea din fișier
+        std::cout << "Entered choice: " << choice << "\n";
 
         switch (choice) {
             case 1: {
                 std::string name;
                 int age;
-                inputFile >> name >> age;  // Citește numele și vârsta animalului din fișier
+                inputFile >> name >> age;
                 Pet pet(name, age);
                 petShop.addPet(pet);
+                animalCounter.increment();
                 std::cout << "Pet added successfully.\n";
                 break;
             }
             case 2: {
                 std::string name;
                 int age;
-                inputFile >> name >> age;  // Citește numele și vârsta clientului din fișier
+                inputFile >> name >> age;
                 Customer customer(name, age);
                 petShop.addCustomer(customer);
                 std::cout << "Customer added successfully.\n";
@@ -51,7 +52,7 @@ int main() {
             }
             case 3: {
                 std::string name;
-                inputFile >> name;  // Citește numele animalului care urmează să fie vândut
+                inputFile >> name;
                 try {
                     auto& pets = petShop.getPets();
                     auto it = std::find_if(pets.begin(), pets.end(),
@@ -75,6 +76,7 @@ int main() {
                 std::cout << "Pets sorted by age.\n";
                 break;
             case 6:
+                std::cout << "Total number of pets added: " << animalCounter.getCount() << std::endl;
                 std::cout << "Exiting...\n";
                 break;
             default:
@@ -82,7 +84,6 @@ int main() {
         }
     } while (choice != 6);
 
-    inputFile.close();  // Închide fișierul după citirea tuturor datelor
-
+    inputFile.close();
     return 0;
 }
