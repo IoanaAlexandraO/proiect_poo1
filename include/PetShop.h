@@ -9,19 +9,21 @@
 
 class PetShop {
 private:
-    std::vector<Pet<int>> pets;
-    std::list<Customer<int>> customers;  // Modificat pentru Customer template
+    std::vector<Pet> pets;
+    std::list<Customer> customers;
     static int totalSales;
     PetShop() {}
+
 public:
-    static PetShop& getInstance();
-    void addPet(const Pet<int>& pet);
-    void addCustomer(const Customer<int>& customer);  // Modificat pentru Customer template
-    void sellPet(const Pet<int>& pet);
-    static int getTotalSales();
-    void sortPetsByAge();
-    void displayPets() const;
-    void displayCustomers() const;  // Opțional: pentru a vedea lista de clienți
+    static PetShop& getInstance(); // metoda de instanțiere unică
+    void addPet(const Pet& pet);   // adăugarea unui animal
+    void addCustomer(const Customer& customer); // adăugarea unui client
+    void sellPet(const Pet& pet);  // vânzarea unui animal
+    static int getTotalSales();    // obținerea vânzărilor totale
+    void sortPetsByAge();         // sortarea animalelor după vârstă
+    
+    // metoda pentru a obține lista de animale
+    std::vector<Pet>& getPets() { return pets; }
 };
 
-#endif
+#endif // PET_SHOP_H
