@@ -8,8 +8,7 @@
 
 int main() {
     PetShop& petShop = PetShop::getInstance();
-    Statistics<int> humanAgeStats("Vârste oameni");     // Pentru vârstele clienților
-    Statistics<float> petAgeStats("Vârste animale");    // Pentru vârstele animalelor
+    Statistics<int> ageStats("Vârste");  // Folosim doar pentru statistici
     int choice;
     std::ifstream inputFile("tastatura.txt");
     
@@ -26,7 +25,7 @@ int main() {
         std::cout << "4. Get Total Sales\n";
         std::cout << "5. Sort Pets by Age\n";
         std::cout << "6. Exit\n";
-        std::cout << "7. Show All Statistics\n";
+        std::cout << "7. Show Age Statistics\n";
         std::cout << "==================\n";
         std::cout << "Enter your choice: ";
         inputFile >> choice;
@@ -34,35 +33,33 @@ int main() {
         switch (choice) {
             case 1: {
                 std::string name;
-                float age;  // Folosim float pentru vârsta animalelor
+                int age;
                 std::cout << "\nEnter pet name: ";
                 inputFile >> name;
                 std::cout << "Enter pet age: ";
                 inputFile >> age;
-                Pet<float> pet(name, age);
+                Pet<int> pet(name, age);
                 petShop.addPet(pet);
-                petAgeStats.addValue(age);
+                ageStats.addValue(age);  // Adăugăm vârsta la statistici
                 std::cout << "Pet " << name << " added successfully!\n";
                 break;
             }
             case 2: {
                 std::string name;
-                int age;    // Folosim int pentru vârsta oamenilor
+                int age;
                 std::cout << "\nEnter customer name: ";
                 inputFile >> name;
                 std::cout << "Enter customer age: ";
                 inputFile >> age;
                 Customer customer(name, age);
                 petShop.addCustomer(customer);
-                humanAgeStats.addValue(age);
-                std::cout << "Customer " << name << " added successfully!\n";
                 break;
             }
             case 3: {
                 std::string name;
                 std::cout << "\nEnter pet name to sell: ";
                 inputFile >> name;
-                Pet<float> pet(name, 0);
+                Pet<int> pet(name, 0);
                 try {
                     petShop.sellPet(pet);
                     std::cout << "Pet " << name << " sold successfully!\n";
@@ -86,9 +83,7 @@ int main() {
                 break;
             }
             case 7: {
-                std::cout << "\n=== STATISTICI GENERALE ===\n";
-                humanAgeStats.displayStatistics();
-                petAgeStats.displayStatistics();
+                ageStats.displayStatistics();
                 break;
             }
             default: {
