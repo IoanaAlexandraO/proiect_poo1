@@ -1,27 +1,26 @@
+
 #ifndef COUNTER_H
 #define COUNTER_H
 
 #include <iostream>
+#include <string>
 
 template<typename T>
 class Counter {
 private:
     T count;
-    std::string type;
+    std::string message;
     
 public:
-    Counter(std::string animalType) : count(0), type(animalType) {}
+    Counter(std::string msg) : count(0), message(msg) {}
     
     void increment() {
-        count++;
+        ++count;
+        std::cout << message << count << std::endl;
     }
     
     T getCount() const {
         return count;
-    }
-    
-    void display() const {
-        std::cout << "Număr de " << type << ": " << count << std::endl;
     }
 };
 
