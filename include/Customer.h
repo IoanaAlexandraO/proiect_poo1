@@ -5,25 +5,19 @@
 #include <string>
 #include <iostream>
 
-template<typename T>
 class Customer : public AbstractEntity {
 private:
     std::string name;
-    T age;
+    int age;
 public:
-    Customer(const std::string& name, T age) : name(name), age(age) {}
-    
-    void speak() const override {
-        std::cout << "Customer " << name << " says: Hello!" << std::endl;
-    }
-    
-    T getAge() const {
-        return age;
-    }
-    
-    std::string getName() const {
-        return name;
-    }
+    Customer(const std::string& name, int age);
+    Customer(const Customer& other);
+    Customer& operator=(const Customer& other);
+    ~Customer() override;
+    void speak() const override;
+    friend std::ostream& operator<<(std::ostream& os, const Customer& customer);
+    friend std::istream& operator>>(std::istream& is, Customer& customer);
+    bool operator==(const Customer& other) const;
 };
 
 #endif
