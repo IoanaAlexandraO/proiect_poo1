@@ -1,4 +1,3 @@
-
 #ifndef COUNTER_H
 #define COUNTER_H
 
@@ -12,7 +11,7 @@ private:
     std::string message;
     
 public:
-    Counter(std::string msg) : count(0), message(msg) {}
+    explicit Counter(const std::string& msg) : count(0), message(msg) {}
     
     void increment() {
         ++count;
