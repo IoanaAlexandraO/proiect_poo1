@@ -1,6 +1,5 @@
 #include "PetShop.h"
 #include "CustomException.h"
-#include <iostream> // Pentru afișare
 
 int PetShop::totalSales = 0;
 
@@ -9,19 +8,18 @@ PetShop& PetShop::getInstance() {
     return instance;
 }
 
-void PetShop::addPet(const Pet& pet) {
+void PetShop::addPet(const Pet<int>& pet) {
     pets.push_back(pet);
 }
 
-void PetShop::addCustomer(const Customer& customer) {
+void PetShop::addCustomer(const Customer<int>& customer) {  // Modificat pentru Customer template
     customers.push_back(customer);
 }
 
-void PetShop::sellPet(const Pet& pet) {
+void PetShop::sellPet(const Pet<int>& pet) {
     if (pet.getAge() < 0) {
         throw CustomException();
     }
-    // Sell the pet
     totalSales++;
 }
 
@@ -30,18 +28,24 @@ int PetShop::getTotalSales() {
 }
 
 void PetShop::sortPetsByAge() {
-    std::sort(pets.begin(), pets.end(), [](const Pet& a, const Pet& b) {
-        return a.getAge() < b.getAge(); // Sortează după vârstă
+    std::sort(pets.begin(), pets.end(), [](const Pet<int>& a, const Pet<int>& b) {
+        return a.getAge() < b.getAge();
     });
+    displayPets();
+}
 
-    // Afișează animalele sortate
-    if (pets.empty()) {
-        std::cout << "No pets in the shop to sort." << std::endl;
-        return;
-    }
-
-    std::cout << "Pets sorted by age:" << std::endl;
+void PetShop::displayPets() const {
+    std::cout << "\nLista animalelor sortate după vârstă:" << std::endl;
     for (const auto& pet : pets) {
-        std::cout << "Name: " << pet.getName() << ", Age: " << pet.getAge() << std::endl;
+        std::cout << "Nume: " << pet.getName() << ", Vârstă: " << pet.getAge() << std::endl;
     }
+    std::cout << std::endl;
+}
+
+void PetShop::displayCustomers() const {
+    std::cout << "\nLista clienților:" << std::endl;
+    for (const auto& customer : customers) {
+        std::cout << "Nume: " << customer.getName() << ", Vârstă: " << customer.getAge() << std::endl;
+    }
+    std::cout << std::endl;
 }
