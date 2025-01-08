@@ -3,12 +3,14 @@
 #include "PetShop.h"
 #include "Pet.h"
 #include "Customer.h"
-#include "Statistics.h"
+#include "Employee.h"
+#include "Cashier.h"
+#include "Manager.h"
 #include "CustomException.h"
+#include "DisplayInfo.h"
 
 int main() {
     PetShop& petShop = PetShop::getInstance();
-    Statistics<int> ageStats("Vârste");  // Folosim doar pentru statistici
     int choice;
     std::ifstream inputFile("tastatura.txt");
     
@@ -16,6 +18,12 @@ int main() {
         std::cout << "Failed to open input file." << std::endl;
         return 1;
     }
+
+    // Citim valoarea pentru DisplayInfo
+    int value;
+    inputFile >> value;
+    DisplayInfo<int> display(value, "Numărul de vânzări: ");
+    display.showInfo();
     
     do {
         std::cout << "\n=== Pet Shop Menu ===\n";
@@ -25,7 +33,6 @@ int main() {
         std::cout << "4. Get Total Sales\n";
         std::cout << "5. Sort Pets by Age\n";
         std::cout << "6. Exit\n";
-        std::cout << "7. Show Age Statistics\n";
         std::cout << "==================\n";
         std::cout << "Enter your choice: ";
         inputFile >> choice;
@@ -40,7 +47,6 @@ int main() {
                 inputFile >> age;
                 Pet<int> pet(name, age);
                 petShop.addPet(pet);
-                ageStats.addValue(age);  // Adăugăm vârsta la statistici
                 std::cout << "Pet " << name << " added successfully!\n";
                 break;
             }
@@ -80,10 +86,6 @@ int main() {
             case 6: {
                 std::cout << "\nThank you for using Pet Shop Management System!\n";
                 std::cout << "Exiting...\n";
-                break;
-            }
-            case 7: {
-                ageStats.displayStatistics();
                 break;
             }
             default: {
